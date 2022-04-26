@@ -30,7 +30,6 @@ public class TouchcastProxy : MonoBehaviour{
     private Vector2[] lastPositions = new Vector2[5];
     private Vector2[] lastVelocity = new Vector2[5];
     private Vector2[] lastDelta = new Vector2[5];
-
     private Vector3[] resetPosition = new Vector3[5];
 
     
@@ -42,7 +41,7 @@ public class TouchcastProxy : MonoBehaviour{
 
 
 
-    void Start(){
+    void Awake(){
         _cameraPixelRect = new Rect[ cameras.Length ];
         _touchcastSettings = new TouchcastSettings[ cameras.Length ];
 
@@ -57,6 +56,18 @@ public class TouchcastProxy : MonoBehaviour{
             draggablePlane = new Plane(draggablePlaneTransform.up, draggablePlaneTransform.position);
         }
         
+    }
+
+    public void updateCameraRects(){
+#if UNITY_EDITOR                            
+        Debug.Log("updateCameraRects");
+#endif 
+        for(int i = 0;i < cameras.Length;i++){
+            _cameraPixelRect[i] = cameras[i].pixelRect;
+#if UNITY_EDITOR                            
+            Debug.Log("Cam " + i + " " + _cameraPixelRect[i].width + "x" + _cameraPixelRect[i].height + " x:" + _cameraPixelRect[i].x + " y:" + _cameraPixelRect[i].y);
+#endif 
+        }
     }
 
 /*
